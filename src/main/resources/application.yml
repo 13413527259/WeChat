@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/wechat
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    pool:
+      max-idle: 8
+      max-active: 8
+      max-wait: -1
+      min-idle: 0
+    timeout: 0
+logging:
+  level:
+    httpclient.wire: info
+domain: http://cjh.nat300.top

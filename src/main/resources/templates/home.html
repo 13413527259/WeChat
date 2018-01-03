@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<style>
+			button {
+				height: 100px;
+				width: 200px;
+				font-size: 24px;
+				font-weight: bolder;
+			}
+		</style>
+		<script src="http://code.jquery.com/jquery-1.4.1.min.js"></script>
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				var timestamp = $("#timestamp").val(); //时间戳
+				var nonceStr = $("#noncestr").val(); //随机串
+				var signature = $("#signature").val(); //签名
+				var appid = $("#appid").val(); //签名
+				//初始化签名级需要用到的接口校验
+				wx.config({
+					debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+					appId: appid, // 必填，公众号的唯一标识
+					timestamp: timestamp, // 必填，生成签名的时间戳
+					nonceStr: nonceStr, // 必填，生成签名的随机串
+					signature: signature, // 必填，签名，见附录1
+					// 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+					jsApiList: ['scanQRCode', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'getLocation', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'openLocation', 'startRecord', 'stopRecord', 'onVoiceRecordEnd', 'translateVoice', 'playVoice', 'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'getLocalImgData']
+				});
+				//预加载，一些功能需要放到里面，如分享
+				wx.ready(function() {
+
+					/*
+					 *特别注意：统一回调函数
+					 *1.success：接口调用成功时执行的回调函数。
+					 *2.fail：接口调用失败时执行的回调函数。
+					 *3.complete：接口调用完成时执行的回调函数，无论成功或失败都会执行。
+					 *4.cancel：用户点击取消时的回调函数，仅部分有用户取消操作的api才会用到。
+					 *5.trigger: 监听Menu中的按钮点击时触发的方法，该方法仅支持Menu中的相关接口。
+					 */
+
+					// 分享到朋友圈;
+					wx.onMenuShareTimeline({
+						title: '分享百度测试',
+						desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+						link: 'http://icu54x.natappfree.cc/index',
+						imgUrl: 'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png',
+						success: function() {
+							// 用户确认分享后执行的回调函数
+							alert('分享到朋友圈成功');
+						},
+						cancel: function() {
+							// 用户取消分享后执行的回调函数
+							alert('你没有分享到朋友圈');
+						}
+					});
+					//分享给微信好友
+					wx.onMenuShareAppMessage({
+						title: '分享百度测试',
+						desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+						link: 'http://icu54x.natappfree.cc/index',
+						imgUrl: 'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png',
+						success: function() {
+							// 用户确认分享后执行的回调函数
+							alert('分享到朋友成功');
+						},
+						cancel: function() {
+							// 用户取消分享后执行的回调函数
+							alert('你没有分享到朋友');
+						}
+					});
+					//分享到QQ
+					wx.onMenuShareQQ({
+						title: '互联网之子',
+						desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+						link: 'http://icu54x.natappfree.cc/index',
+						imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+						success: function() {
+							alert('已分享');
+						},
+						cancel: function() {
+							alert('已取消');
+						}
+					});
+					//分享到微博
+					wx.onMenuShareWeibo({
+						title: '互联网之子',
+						desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+						link: 'http://icu54x.natappfree.cc/index',
+						imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+						success: function() {
+							alert('已分享');
+						},
+						cancel: function() {
+							alert('已取消');
+						}
+					});
+					//分享到QQ空间
+					wx.onMenuShareQZone({
+						title: '互联网之子',
+						desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+						link: 'http://icu54x.natappfree.cc/index',
+						imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+						success: function() {
+							alert('已分享');
+						},
+						cancel: function() {
+							alert('已取消');
+						}
+					});
+				});
+				//扫一扫
+				$("#scanbt").click(function() {
+					wx.scanQRCode({
+						needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果
+						scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+						desc: 'scanQRCode desc',
+						success: function(result) {
+							var url = result.resultStr;
+							$("#scanResult").text(url);
+							$("#scanResult").attr('href', url);
+						}
+					});
+				});
+				//查看地图
+				wx.openLocation({
+					llatitude: 0, // 纬度，浮点数，范围为90 ~ -90
+					longitude: 0, // 经度，浮点数，范围为180 ~ -180。
+					name: '', // 位置名
+					address: '', // 地址详情说明
+					scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
+					infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+				});
+				//定位
+				$("#localtion").click(function() {
+					wx.getLocation({
+						type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+						success: function(result) {
+							alert(JSON.stringify(result));
+							wx.openLocation({
+								latitude: result.latitude,
+								longitude: result.longitude,
+								name: '我的位置',
+								address: '详细信息',
+								scale: 16,
+								infoUrl: 'http://weixin.qq.com'
+							});
+						},
+						cancel: function(result) {
+							alert('您拒绝授权获取地理位置');
+						}
+					});
+				});
+				//共享收货地址接口
+				$("#address").click(function() {
+					wx.openAddress({
+						success: function(result) {
+							var userName = result.userName; // 收货人姓名
+							var postalCode = result.postalCode; // 邮编
+							var provinceName = result.provinceName; // 国标收货地址第一级地址（省）
+							var cityName = result.cityName; // 国标收货地址第二级地址（市）
+							var countryName = result.countryName; // 国标收货地址第三级地址（国家）
+							var detailInfo = result.detailInfo; // 详细收货地址信息
+							var nationalCode = result.nationalCode; // 收货地址国家码
+							var telNumber = result.telNumber; // 收货人手机号码
+							$("#addressResult").html(userName + postalCode + provinceName + cityName + countryName + detailInfo + telNumber)
+						}
+					});
+				});
+				//定义录音结果的媒体id
+				var voiceId;
+				//开始录音
+				$("#startVoice").click(function() {
+					wx.startRecord({
+						cancel: function() {
+							alert('用户拒绝授权录音');
+						}
+					});
+				});
+				// 录音时间超过一分钟没有停止的时候会执行 complete 回调
+				wx.onVoiceRecordEnd({
+					complete: function(result) {
+						voiceId = result.localId;
+						alert("录音结束");
+					}
+				});
+				//停止录音
+				$("#stopVoice").click(function() {
+					wx.stopRecord({
+						success: function(result) {
+							voiceId = result.localId;
+						}
+					});
+				});
+				//播放录音
+				$("#playVoice").click(function() {
+					if(voiceId == null) {
+						alert('请先使用录制一段声音');
+						return;
+					}
+					wx.playVoice({
+						localId: voiceId
+					});
+				});
+				//识别音频并返回识别结果接口
+				$("#getVoice").click(function() {
+					if(voiceId == null) {
+						alert('请先使用录制一段声音');
+						return;
+					}
+					wx.translateVoice({
+						localId: voiceId, // 需要识别的音频的本地Id，由录音相关接口获得
+						isShowProgressTips: 1, // 默认为1，显示进度提示
+						complete: function(result) {
+							$("#voiceResult").text(result.translateResult == null ? "我没听清~您可以再说一遍吗？" : result.translateResult);
+						}
+					});
+				});
+				//图片id
+				var imageId = new Array();
+				//选择图片
+				$("#checkImage").click(function() {
+					wx.chooseImage({
+						count: 9, // 可选数量默认9
+						sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+						sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+						success: function(result) {
+							imageId = result.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+						}
+					});
+				});
+				//本地图片:通过服务器上media_id可以将图片转换为base64的数据，以便保存在自己服务器
+				$("#getlocationImage").click(function() {
+					//					wx.getLocalImgData({
+					//						localId: imageId[0], // 图片的localID
+					//						success: function(result) {
+					//							保存到数据库(result.localData) // localData是图片的base64数据，可以用img标签显示
+					//						}
+					//					});
+				});
+				//预览图片
+				$("#previewImage").click(function() {
+					wx.previewImage({
+						current: imageId[0], // 当前显示图片的http链接
+						urls: imageId // 需要预览的图片http链接列表
+					});
+				});
+				//上传图片,上传图片有效期3天，可用微信多媒体接口下载图片到自己的服务器，此处获得的 serverId 即 media_id。
+				var serverId;
+				$("#uploadImage").click(function() {
+					wx.uploadImage({
+						localId: imageId[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+						isShowProgressTips: 1, // 默认为1，显示进度提示
+						success: function(result) {
+							serverId = result.serverId; // 返回图片的服务器端ID
+						}
+					});
+				});
+				//下载图片
+				$("#downloadImage").click(function() {
+					wx.downloadImage({
+						serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+						isShowProgressTips: 1, // 默认为1，显示进度提示
+						success: function(result) {
+							imageId[99] = result.localId; // 返回图片下载后的本地ID格式
+							$("#imgView").attr("src", imageId[99]);
+						}
+					});
+				});
+
+				//验证失败处理
+				wx.error(function(res) {
+					alert(res.errMsg);
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<h1>hello~!</h1>
+		<button id="scanbt">扫一扫</button>
+		<button id="localtion">定位</button>
+		<button id="address">我的收货地址</button>
+		<button id="startVoice">开始录音</button>
+		<button id="stopVoice">停止录音</button>
+		<button id="playVoice">听一听</button>
+		<button id="getVoice">识别语音</button>
+		<button id="checkImage">选择图片</button>
+		<button id="getlocationImage">本地图片</button>
+		<button id="previewImage">预览图片</button>
+		<button id="uploadImage">上传图片</button>
+		<button id="downloadImage">下载图片</button>
+		<p>
+			<a href="#" id="scanResult" style="font-size: 24px">扫一扫结果</a>
+		</p>
+		<p id="addressResult"></p>
+		<p id="voiceResult"></p>
+		<img src="" id="imgView" />
+
+		<input id="timestamp" type="hidden" th:value="${timestamp}" />
+		<input id="noncestr" type="hidden" th:value="${nonceStr}" />
+		<input id="signature" type="hidden" th:value="${signature}" />
+		<input id="appid" type="hidden" th:value="${appid}" />
+
+	</body>
+
+</html>
