@@ -21,4 +21,4 @@ spring:
 logging:
   level:
     httpclient.wire: info
-domain: http://cjh.nat300.top
+domain: http://1ge9881707.51mypc.cn

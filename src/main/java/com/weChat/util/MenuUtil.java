@@ -116,6 +116,11 @@ public class MenuUtil {
 		return menu;
 
 	}
+	
+	public static int createMenu() throws Exception {
+		return createMenu(buildMenu(),
+				TokenUtil.getToken(TokenInfo.APPID.getValue(), TokenInfo.APPSECRET.getValue()));
+	}
 
 	public static void main(String[] args) throws Exception {
 

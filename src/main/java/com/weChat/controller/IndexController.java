@@ -11,6 +11,7 @@ import com.weChat.bean.token.Token;
 import com.weChat.bean.user.SNSUserInfo;
 import com.weChat.service.Oath2Service;
 import com.weChat.service.TokenService;
+import com.weChat.util.MenuUtil;
 import com.weChat.util.UserUtil;
 
 @RestController
@@ -47,6 +48,11 @@ public class IndexController {
 	public void redrict(HttpServletResponse response) throws Exception {
 		String url = UserUtil.getLoginUrl("index");
 		response.sendRedirect(url);
+	}
+	
+	@GetMapping("createMenu")
+	public int createMenu() throws Exception {
+		return MenuUtil.createMenu();
 	}
 
 }
